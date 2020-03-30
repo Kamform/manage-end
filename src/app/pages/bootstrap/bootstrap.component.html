@@ -1,0 +1,26 @@
+<header>
+  <h1><a routerLink="">This Is Header</a></h1>
+  <button *ngIf="logService.islog else login" (click)="logService.logout()">logout</button>
+  <ng-template #login>
+    <a routerLink="login">login</a>
+  </ng-template>
+</header>
+
+<section>
+
+  <nav>
+    <dl>
+      <dt>Account Manage</dt>
+      <dd><a routerLink="admin-manage">admin manage</a></dd>
+      <dd><a routerLink="user-manage">user manage</a></dd>
+
+      <dt>Resource Manage</dt>
+      <dd><a routerLink="category-manage">category manage</a></dd>
+      <dd><a routerLink="resource-manage">resource manage</a></dd>
+      <dd><a routerLink="file-manage">file repository</a></dd>
+    </dl>
+  </nav>
+
+  <router-outlet></router-outlet>
+
+</section>

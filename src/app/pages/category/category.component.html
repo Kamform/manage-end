@@ -1,0 +1,35 @@
+<main>
+
+  <h3>Category Manage</h3>
+
+  <section class="actions">
+    <button (click)="addCard.show()">Add New</button>
+
+    <app-card #addCard>
+      <form [formGroup]="definer" (ngSubmit)="create()">
+        <label>name: <input type="text" formControlName="name"></label>
+        <label>sort: <input type="number" formControlName="sort"></label>
+        <button type="submit">Create</button>
+      </form>
+    </app-card>
+
+    <app-card #updateCard>
+      <form [formGroup]="recorder" (ngSubmit)="update()">
+        <input type="hidden" formControlName="id">
+        <label>name: <input type="text" formControlName="name"></label>
+        <label>sort: <input type="number" formControlName="sort"></label>
+        <button type="submit">Update</button>
+      </form>
+    </app-card>
+  </section>
+
+  <ul>
+    <li *ngFor="let item of page.content">
+      {{item.sort}}
+      {{item.name}}
+      <button (click)="recorder.setValue(item); updateCard.show()">update</button>
+      <button (click)="delete(item.id)">delete</button>
+    </li>
+  </ul>
+
+</main>

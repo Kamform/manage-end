@@ -1,0 +1,104 @@
+<main>
+
+  <h3>User Manage</h3>
+
+  <section>
+    <button (click)="showAdd()">Add New</button>
+    <form class="add" [formGroup]="definer" (ngSubmit)="createUser()">
+      <label>
+        username: <input type="text" formControlName="username">
+      </label>
+      <label>
+        password: <input type="password" formControlName="password">
+      </label>
+      <label>
+        email: <input type="text" formControlName="email">
+      </label>
+      <label>
+        phone: <input type="text" formControlName="phone">
+      </label>
+      <label>
+        admin: <input type="checkbox" formControlName="isAdmin">
+      </label>
+      <label>
+        enable: <input type="checkbox" formControlName="isEnable">
+      </label>
+      <label>
+        lock: <input type="checkbox" formControlName="isLock">
+      </label>
+      <button type="submit">Submit</button>
+    </form>
+
+    <form class="update" [formGroup]="recorder" (ngSubmit)="updateUser()">
+      <input type="hidden" formControlName="id">
+      <label>
+        username: <input type="text" formControlName="username">
+      </label>
+      <label>
+        password: <input type="password" formControlName="password">
+      </label>
+      <label>
+        email: <input type="text" formControlName="email">
+      </label>
+      <label>
+        phone: <input type="text" formControlName="phone">
+      </label>
+      <label>
+        admin: <input type="checkbox" formControlName="isAdmin">
+      </label>
+      <label>
+        enable: <input type="checkbox" formControlName="isEnable">
+      </label>
+      <label>
+        lock: <input type="checkbox" formControlName="isLock">
+      </label>
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+
+  <section>
+    <button>Prev</button>
+    <span>{{page.page + 1}} / {{page.pageCount}}</span>
+    <button>Next</button>
+  </section>
+
+  <table>
+    <caption>user list</caption>
+    <tr>
+      <th>ID</th>
+      <th>username</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>admin</th>
+      <th>enable</th>
+      <th>locked</th>
+      <th>created</th>
+      <th>updated</th>
+      <th>operation</th>
+    </tr>
+    <tr *ngFor="let user of users">
+      <td>{{user.id}}</td>
+      <td>{{user.username}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.phone}}</td>
+      <td>{{user.isAdmin}}</td>
+      <td>{{user.isEnable}}</td>
+      <td>{{user.isLock}}</td>
+      <td>{{user.created | date}}</td>
+      <td>{{user.updated | date}}</td>
+      <td>
+        <button (click)="showUpdate(user)">update</button>
+        <button (click)="deleteUser(user.id)">delete</button>
+      </td>
+    </tr>
+  </table>
+
+  <section>
+    <button>Prev</button>
+    <span>{{page.page + 1}} / {{page.pageCount}}</span>
+    <button>Next</button>
+  </section>
+
+  <div class="bg" (click)="cancel()"></div>
+
+</main>

@@ -1,0 +1,46 @@
+<main>
+
+  <h3>{{contentTitle}}</h3>
+
+  <section class="actions">
+    <button (click)="showAdd()">Add New</button>
+    <form [class.show]="isAdd" (ngSubmit)="create.emit()">
+      <ng-content select="ng-container[add-form]"></ng-content>
+      <button type="submit">create</button>
+    </form>
+    <form [class.show]="isUpdate" (ngSubmit)="update.emit()">
+      <ng-content select="ng-container[update-form]"></ng-content>
+      <button type="submit">update</button>
+    </form>
+  </section>
+
+  <section class="pager">
+    <button>Prev</button>
+    <span>{{page.page + 1}} / {{page.pageCount}}</span>
+    <button>Next</button>
+  </section>
+
+  <table>
+    <caption>{{tableTitle}}</caption>
+    <tr>
+      <ng-content select="ng-container[data-head]"></ng-content>
+      <th>Operation</th>
+    </tr>
+    <tr *ngFor="let item of page.content">
+      <ng-container *ngTemplateOutlet="dataItem; context: {data: item}"></ng-container>
+      <td>
+        <button (click)="showUpdate()">Update</button>
+        <button (click)="delete(item.id)">Delete</button>
+      </td>
+    </tr>
+  </table>
+
+  <section class="pager">
+    <button>Prev</button>
+    <span>{{page.page + 1}} / {{page.pageCount}}</span>
+    <button>Next</button>
+  </section>
+
+  <div class="background" [class.show]="isAdd || isUpdate" (click)="hidden()"></div>
+
+</main>

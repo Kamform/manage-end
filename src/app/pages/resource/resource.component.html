@@ -1,0 +1,52 @@
+<main>
+
+  <h3>Resource Manage</h3>
+
+  <section class="actions">
+  </section>
+
+  <section class="pager">
+    <button>Prev</button>
+    <span>{{page.page + 1}} / {{page.pageCount}}</span>
+    <button>Next</button>
+  </section>
+
+  <table>
+    <caption>resource list</caption>
+    <tr>
+      <th>Id</th>
+      <th>Title</th>
+      <th>Summary</th>
+      <th>Category</th>
+      <th>Author</th>
+      <th>Created</th>
+      <th>Updated</th>
+      <th>Operation</th>
+    </tr>
+    <ng-container *ngIf="page.content?.length else loading">
+      <tr *ngFor="let item of page.content">
+        <td>{{item.id}}</td>
+        <td>{{item.title}}</td>
+        <td>{{item.summary}}</td>
+        <td>{{item.category}}</td>
+        <td>{{item.author}}</td>
+        <td>{{item.created | date}}</td>
+        <td>{{item.updated | date}}</td>
+        <td>
+          <button>Delete</button>
+        </td>
+      </tr>
+    </ng-container>
+    <ng-template #loading>
+      <tr>
+        <td [colSpan]="8" [ngStyle]="{textAlign: 'center'}">no data</td>
+      </tr>
+    </ng-template>
+  </table>
+
+  <section class="pager">
+    <button>Prev</button>
+    <span>{{page.page + 1}} / {{page.pageCount}}</span>
+    <button>Next</button>
+  </section>
+</main>

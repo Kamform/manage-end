@@ -1,0 +1,28 @@
+<main>
+
+  <h3>File Repository</h3>
+
+  <section class="actions">
+  </section>
+
+  <section class="pager">
+    <button>Prev</button>
+    <span>{{page.page + 1}} / {{page.pageCount}}</span>
+    <button>Next</button>
+  </section>
+
+  <ul>
+    <li *ngFor="let item of page.content">
+      {{item.name}}
+      {{item.author}}
+      {{item.created | date}}
+      {{item.updated | date}}
+    </li>
+  </ul>
+
+  <section class="pager">
+    <button>Prev</button>
+    <span>{{page.page + 1}} / {{page.pageCount}}</span>
+    <button>Next</button>
+  </section>
+</main>

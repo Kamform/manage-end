@@ -1,0 +1,6 @@
+<div class="card" [class.show]="isShow">
+  <ng-content></ng-content>
+</div>
+
+<div class="background" [class.show]="isShow" (click)="hidden()">
+</div>

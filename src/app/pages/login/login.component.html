@@ -1,12 +1,10 @@
-<form [formGroup]="loginfo" (ngSubmit)="login()">
-  <label>
-    username:
-    <input type="text" formControlName="username">
-  </label>
-  <label>
-    password:
-    <input type="password" formControlName="password">
-  </label>
+<form [formGroup]="form" (ngSubmit)="login()">
+
+  <input type="text" formControlName="username">
+
+  <br>
+
+  <input type="password" formControlName="password">
+
   <button type="submit">login</button>
 </form>
-<span *ngIf="failed"> wrong user name or password</span>

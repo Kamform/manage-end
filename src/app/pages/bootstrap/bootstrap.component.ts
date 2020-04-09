@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginService} from '../../services/login.service';
+import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   selector: 'app-bootstrap',
@@ -7,10 +8,10 @@ import {LoginService} from '../../services/login.service';
   styleUrls: ['./bootstrap.component.css']
 })
 export class BootstrapComponent implements OnInit {
-  logService: LoginService;
 
-  constructor(loginService: LoginService) {
-    this.logService = loginService;
+  constructor(
+    public auth: AuthenticationService
+  ) {
   }
 
   ngOnInit(): void {

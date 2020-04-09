@@ -177,13 +177,13 @@ export class AuthenticationService {
     });
   }
 
-  async delete(id: number) {
+  async delete(url: string, id: number) {
     return this.http.delete(
-      `${this.url}/${id}`, this.options()
+      `${this.url}${url}/${id}`, this.options()
     ).toPromise().catch(() => {
       this.refreshToken(this.token);
       return this.http.delete(
-        `${this.url}/${id}`, this.options()
+        `${this.url}${url}/${id}`, this.options()
       ).toPromise();
     });
   }

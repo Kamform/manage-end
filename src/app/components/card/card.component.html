@@ -1,6 +1,6 @@
-<div class="card" [class.show]="isShow">
+<div class="card" [class.show]="show">
   <ng-content></ng-content>
 </div>
 
-<div class="background" [class.show]="isShow" (click)="hidden()">
+<div class="background" [class.show]="show" (click)="hidden()">
 </div>

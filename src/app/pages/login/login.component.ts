@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../../services/login.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -9,32 +10,33 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private logControl: LoginService;
-  private route: ActivatedRoute;
-  private router: Router;
 
-  public failed = false;
+  public username = new FormControl('', [Validators.required]);
+  public password = new FormControl('', [Validators.required]);
 
-  loginfo = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
-  });
+  public form: FormGroup;
 
-  constructor(logControl: LoginService, route: ActivatedRoute, router: Router) {
-    this.logControl = logControl;
-    this.route = route;
-    this.router = router;
+  constructor(
+    public auth: AuthenticationService,
+    private router: Router,
+    builder: FormBuilder,
+  ) {
+    this.form = builder.group({
+      username: this.username,
+      password: this.password
+    });
   }
 
   ngOnInit(): void {
   }
 
   async login() {
-    const result = await this.logControl.login(this.loginfo.value);
-
-    if (result) {
-      this.router.navigate(['']);
+    if (this.form.valid) {
+      this.auth.authenticate(this.form.value).then(value => {
+        this.router.navigate(['/']);
+      }).catch(reason => {
+        alert('login failed');
+      });
     }
-    this.failed = !result;
   }
 }

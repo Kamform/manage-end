@@ -1,6 +1,6 @@
 <header>
   <h1><a routerLink="">This Is Header</a></h1>
-  <button *ngIf="logService.islog else login" (click)="logService.logout()">logout</button>
+  <button *ngIf="auth.isLogin else login" (click)="auth.logout()">logout</button>
   <ng-template #login>
     <a routerLink="login">login</a>
   </ng-template>

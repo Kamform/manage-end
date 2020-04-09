@@ -3,32 +3,19 @@ import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Route
 import {Observable} from 'rxjs';
 import {LoginService} from '../services/login.service';
 import {log} from 'util';
+import {AuthenticationService} from '../services/authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationGuard implements CanActivate {
-  private logControl: LoginService;
-  private router: Router;
 
-  constructor(login: LoginService, router: Router) {
-    this.logControl = login;
-    this.router = router;
+  constructor(private auth: AuthenticationService) {
   }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!this.logControl.islog) {
-      this.router.navigate(
-        ['login'],
-        {
-          queryParams: {
-            mapping: state.url
-          }
-        });
-      return false;
-    }
-    return true;
+    return this.auth.isAuthenticated();
   }
 }

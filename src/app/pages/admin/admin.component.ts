@@ -1,8 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthenticationService} from '../../services/authentication.service';
 import {PageHolder} from '../../utils/page-holder';
-import {AdminBooth, AdminDefiner, AdminRecorder, AdminService} from '../../services/admin.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {CardComponent} from '../../components/card/card.component';
 
 @Component({
   selector: 'app-admin',
@@ -10,60 +9,84 @@ import {CardComponent} from '../../components/card/card.component';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  private service: AdminService;
-  private builder: FormBuilder;
 
-  public page: PageHolder<AdminBooth> = new PageHolder<AdminBooth>();
   public recorder: FormGroup;
   public definer: FormGroup;
 
-  @ViewChild('add') addCard;
-  @ViewChild('update') updateCard;
+  public page: PageHolder<any>;
 
-  constructor(service: AdminService, builder: FormBuilder) {
-    this.service = service;
-    this.builder = builder;
+  constructor(
+    public auth: AuthenticationService,
+    private builder: FormBuilder
+  ) {
+    this.page = new PageHolder<any>();
+
+    this.definer = builder.group({
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
+      isEnable: new FormControl(true),
+      isLock: new FormControl(false),
+    });
+
+    this.recorder = builder.group({
+      id: new FormControl(0),
+      nickname: new FormControl('', [Validators.required]),
+      password: new FormControl(''),
+      isEnable: new FormControl(true),
+      isLock: new FormControl(false),
+    });
+
+    this.refresh();
   }
 
   async ngOnInit() {
-    this.listAdmin();
-    this.recorder = this.builder.group(new AdminRecorder());
-    this.definer = this.builder.group(new AdminDefiner());
   }
 
-  listAdmin() {
-    this.service.getList().then(value => {
+  refresh() {
+    this.auth.takeToken().get<PageHolder<any>>(
+      '/api/admin'
+    ).then(value => {
       this.page = value;
-    });
-  }
-
-  createAdmin() {
-    this.service.create(this.definer.value).then(_ => {
-      this.listAdmin();
-    });
-    this.addCard.hidden();
-  }
-
-  updateAdmin() {
-    this.service.update(this.recorder.value).then(_ => {
-      this.listAdmin();
-    });
-    this.updateCard.hidden();
-  }
-
-  deleteAdmin(id: number) {
-    this.service.delete(id).then(_ => {
-      this.listAdmin();
     });
   }
 
   displayData(item) {
     this.recorder.setValue({
       id: item.id,
-      username: item.username,
+      nickname: item.nickname,
       password: '',
       isEnable: item.isEnable,
       isLock: item.isLock
+    });
+  }
+
+  create() {
+    if (this.definer.valid) {
+      this.auth.takeToken().put(
+        '/api/admin',
+        this.definer.value
+      ).then(_ => {
+        this.refresh();
+      });
+    }
+  }
+
+  update() {
+    if (this.recorder.valid) {
+      this.auth.takeToken().post(
+        '/api/admin',
+        this.recorder.value
+      ).then(_ => {
+        this.refresh();
+      });
+    }
+  }
+
+  deleteAdmin(id: number) {
+    this.auth.takeToken().delete(
+      '/api/admin', id
+    ).then(_ => {
+      this.refresh();
     });
   }
 }

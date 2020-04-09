@@ -1,25 +1,32 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
 
-  isShow = false;
+  private showValue: boolean;
+
+  @Output()
+  private showChange = new EventEmitter();
+
+  @Input()
+  public get show() {
+    return this.showValue;
+  }
+
+  public set show(value: boolean) {
+    this.showValue = value;
+    this.showChange.emit(this.showValue);
+  }
 
   constructor() {
-  }
-
-  ngOnInit(): void {
-  }
-
-  show() {
-    this.isShow = true;
+    this.showChange.subscribe();
   }
 
   hidden() {
-    this.isShow = false;
+    this.show = false;
   }
 }

@@ -3,28 +3,26 @@
   <h3>Admin Manage</h3>
 
   <section class="actions">
-    <button (click)="add.show()">Add New</button>
+    <h5>Create admin</h5>
+    <form (ngSubmit)="create()" [formGroup]="definer">
+      <label>username: <input type="text" formControlName="username" autocomplete="username"></label>
+      <label>password: <input type="password" formControlName="password" autocomplete="current-password"></label>
+      <label>enable: <input type="checkbox" formControlName="isEnable"></label>
+      <label>lock: <input type="checkbox" formControlName="isLock"></label>
+      <button type="submit">create</button>
+    </form>
 
-    <app-card #add>
-      <form [class.show]="true" (ngSubmit)="createAdmin()" [formGroup]="definer">
-        <label>username: <input type="text" formControlName="username"></label>
-        <label>password: <input type="password" formControlName="password"></label>
-        <label>enable: <input type="checkbox" formControlName="isEnable"></label>
-        <label>lock: <input type="checkbox" formControlName="isLock"></label>
-        <button type="submit">create</button>
-      </form>
-    </app-card>
+    <br>
 
-    <app-card #update>
-      <form [class.show]="true" (ngSubmit)="updateAdmin()" [formGroup]="recorder">
-        <input type="hidden" formControlName="id">
-        <label>username: <input type="text" formControlName="username"></label>
-        <label>password: <input type="password" formControlName="password"></label>
-        <label>enable: <input type="checkbox" formControlName="isEnable"></label>
-        <label>lock: <input type="checkbox" formControlName="isLock"></label>
-        <button type="submit">update</button>
-      </form>
-    </app-card>
+    <h5>Update admin</h5>
+    <form (ngSubmit)="update()" [formGroup]="recorder">
+      <input type="hidden" formControlName="id">
+      <label>nickname: <input type="text" formControlName="nickname" autocomplete="username"></label>
+      <label>password: <input type="password" formControlName="password" autocomplete="new-password"></label>
+      <label>enable: <input type="checkbox" formControlName="isEnable"></label>
+      <label>lock: <input type="checkbox" formControlName="isLock"></label>
+      <button type="submit">update</button>
+    </form>
   </section>
 
   <section class="pager">
@@ -38,6 +36,7 @@
     <tr>
       <th>Id</th>
       <th>Username</th>
+      <th>Nickname</th>
       <th>IsEnable</th>
       <th>IsLock</th>
       <th>Created</th>
@@ -48,12 +47,13 @@
 
       <td>{{item.id}}</td>
       <td>{{item.username}}</td>
+      <td>{{item.nickname}}</td>
       <td>{{item.isEnable}}</td>
       <td>{{item.isLock}}</td>
       <td>{{item.created | date}}</td>
       <td>{{item.updated | date}}</td>
       <td>
-        <button (click)="update.show(); displayData(item)">Update</button>
+        <button (click)="displayData(item)">Update</button>
         <button (click)="deleteAdmin(item.id)">Delete</button>
       </td>
     </tr>

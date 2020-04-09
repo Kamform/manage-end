@@ -15,6 +15,8 @@ import {TableContentComponent} from './components/table-content/table-content.co
 import {CardComponent} from './components/card/card.component';
 import {LoginComponent} from './pages/login/login.component';
 import {AuthenticationGuard} from './guard/authentication.guard';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import {AuthenticationGuard} from './guard/authentication.guard';
       {path: 'login', component: LoginComponent},
     ]),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule
   ],
   providers: [],
   bootstrap: [BootstrapComponent]
